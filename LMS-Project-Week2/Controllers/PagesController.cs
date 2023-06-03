@@ -1,4 +1,6 @@
-﻿using LMS_Project_Week2.CommonClass;
+﻿using LaibrarySystem.Biz;
+using LaibrarySystem.Dto;
+using LMS_Project_Week2.CommonClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +22,7 @@ namespace LMS_Project_Week2.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-
-            return View();
+            return RedirectToAction("Index", "Admin"); ;
         }
 
         //TODO: When click logout for admin make => System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null
