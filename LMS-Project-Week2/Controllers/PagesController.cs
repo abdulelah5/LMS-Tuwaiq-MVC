@@ -11,12 +11,7 @@ namespace LMS_Project_Week2.Controllers
     {
         // GET: Pages
         public ActionResult Guest()
-        {
-            if (System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-
+        {            
             return View();
         }
         public ActionResult Admin()
