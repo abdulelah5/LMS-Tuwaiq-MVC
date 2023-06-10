@@ -19,11 +19,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AuthorName)
+            @Html.DisplayNameFor(model => model.author.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AuthorName)
+            @Html.DisplayFor(model => model.author.Name)
         </dd>
 
         <dt>
@@ -32,6 +32,13 @@
 
         <dd>
             @Html.DisplayFor(model => model.IsAvailable)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.client.ClientName)
         </dd>
 
     </dl>

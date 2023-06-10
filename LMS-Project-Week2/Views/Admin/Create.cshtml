@@ -1,8 +1,6 @@
 ﻿@model LaibrarySystem.Dto.Book
-@using LaibrarySystem.Dto;
 @{
     ViewBag.Title = "Create";
-    Author author = new Author();
 }
 
 <h2>Create</h2>
@@ -25,12 +23,12 @@
     </div>
 
     @*<div class="form-group">
-        @Html.LabelFor(model => model.AuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AuthorId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AuthorId, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.AuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AuthorId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AuthorId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.IsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -40,23 +38,37 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.AuthorName, htmlAttributes: new { @class = "control-label col-md-2" })
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.author.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="text" class="form-control" name="author" />
+            @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control" } })
         </div>
-            @*<div class="col-md-10">
+            <div class="col-md-10">
                 @Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
-            </div>*@
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
             </div>
+        </div>*@
+<div class="form-group">
+    @Html.LabelFor(model => model.author.Id, "Author name", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div id="selectAuthorName" class="col-md-10">
+        @Html.DropDownListFor(model => model.author.Id,
+       new SelectList(ViewBag.Authors, "Id", "Name"), "Choose", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.author.Id, "", new { @class = "text-danger" })
+        <button class="btn btn-default" type="button" onclick="newAuthor(this)">New author?</button>
+    </div>    
+    <div id="authorName" class="col-md-10" style="display:none">
+        @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.author.Name, "", new { @class = "text-danger" })
+        <button class="btn btn-default" type="button" onclick="existAuthor(this)">Select author?</button>
+    </div>    
+</div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
+</div>
 }
 
 <div>
@@ -66,3 +78,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script type="text/javascript">
+    function newAuthor(element) {        
+        document.getElementById("authorName").style.display = "block";
+        document.getElementById("selectAuthorName").style.display = "none";
+    }
+    function existAuthor(element) {
+        document.getElementById("authorName").style.display = "none";
+        document.getElementById("selectAuthorName").style.display = "block";
+    }
+</script>

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<LaibrarySystem.Dto.Book>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<LaibrarySystem.Dto.Book>
 
 @{
     ViewBag.Title = "Index";
@@ -6,40 +7,69 @@
 
 <h2>Books</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
+<form asp-controller="Admin" asp-action="Index" method="get">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Search</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            @Html.ActionLink("Create New", "Create")
+        </div>
+    </div>
+</form>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Title
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AuthorName)
+            Author Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsAvailable)
+            Available
+        </th>
+        <th>
+            Client Name
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthorName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAvailable)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.author.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.client.ClientName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<div class="pagination" style="margin-left: 400px">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

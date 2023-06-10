@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>@ViewBag.Title</title>
 
-    <link rel="shortcut icon" href="~/Content/images/library-open-book-icon-png.png" />
+    <link rel="shortcut icon" href="~/Content/images/library-open-book-icon-png.png" />    
+
+    <style>
+        nav a {
+            color: white !important;
+        }
+        nav li a:hover {
+            background-color: darkgrey !important;
+        }
+        nav li a:focus {
+            background-color: darkgrey !important;
+        }
+        nav li a:active {
+            background-color: darkgrey !important;
+        }
+    </style>
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">*@
+    <nav class="navbar navbar-dark bg-primary navbar-fixed-top">
         @*navbar-inverse*@
         <div class="container">
             @if (System.Web.HttpContext.Current.Session[LMS_Project_Week2.CommonClass.AuthinticationLoginSession.loggedInUserObject] != null)
@@ -22,15 +38,23 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    @Html.ActionLink("Library Management System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Library Management System", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Admin")</li>
                         <li>@Html.ActionLink("Guest Home", "Index", "Guest")</li>
-                        <li>@Html.ActionLink("Logout", "Login", "Login")</li>
+                        @*<li>@Html.ActionLink("Logout", "Login", "Login")</li>*@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:underline">
+                                @Session["Username"]
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown" style="background: #337ab7">
+                                <ul>
+                                    <li><a class="dropdown-item" href="@Url.Action("Login","Login")">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             }
@@ -52,19 +76,20 @@
                 </div>
             }
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        
-        <div class="panel-footer" style="position:absolute;bottom:0%; left:0%;right:0%;width:100%">
-            <footer>
-                <p class="text-center">&copy; @DateTime.Now.Year - Library Management System</p>
-            </footer>
-        </div>
-    </div>
+        @*</div>*@
+        </nav>
+        <div class="container body-content">
+            @RenderBody()
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+            <div class="panel-footer" style="position:absolute;bottom:0%; left:0%;right:0%;width:100%">
+                <footer>
+                    <p class="text-center">&copy; @DateTime.Now.Year - Library Management System</p>
+                </footer>
+            </div>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
 </body>
 </html>
