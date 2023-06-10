@@ -1,0 +1,82 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<LMS_Project_Week2.Entity.Books>
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+
+<form asp-controller="Guest" asp-action="Index" method="get">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Search</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            @Html.ActionLink("Return Book", "ReturnBook")
+        </div>
+    </div>
+</form>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Author Name
+        </th>
+        <th>
+            Is Available
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.AuthorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailable)
+
+            </td>
+            <td>
+                @if (item.IsAvailable.ToLower().Equals("yes"))
+                {
+
+                    @Html.ActionLink("Rent", "Rent", new { id = item.Id })
+
+                }
+                else
+                {
+                    <span class="label label-danger">Not Available</span>
+                }
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<div class="pagination" style="margin-left: 400px">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Rent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rent</h2>
+
+<br />
+@if (@ViewBag.errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.errorMessage
+    </div>
+}
+else
+{
+
+
+    if (@ViewBag.okMessage != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.okMessage
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Guest" asp-action="Rent" method="post" autocomplete="off">
+            <div class="form-group">
+                <label for="nameFormControlInput">Enter Your Name:</label>
+                <input type="text" name="name" class="form-control" id="nameFormControlInput">
+            </div>
+            <div class="form-group">
+                <label>Book Name:</label>
+                <input type="text" name="name" class="form-control" id="nameFormControlInput" value="@ViewBag.book.Title" disabled>
+            </div>
+
+            <input type="hidden" name="id" class="form-control" value="@ViewBag.book.Id" hidden>
+
+
+            <button type="submit" class="btn btn-primary">Rent</button>
+
+        </form>
+    }
+
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
