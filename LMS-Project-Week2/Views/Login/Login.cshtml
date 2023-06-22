@@ -13,90 +13,121 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-    @*<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
+
     <link href="~/Content/LoginCSS.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="~/Content/images/library-open-book-icon-png.png" />
+    <link rel="shortcut icon" href="~/Content/images/logo.png" />
+    @*<link rel="stylesheet" type="text/css" href="~/Content/PagedList.css">
+        <link rel="stylesheet" type="text/css" href="~/Content/styles/bootstrap4/bootstrap.min.css">*@
+    <link href="plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/animate.css">
+    @*<link rel="stylesheet" type="text/css" href="~/Content/styles/main_styles.css">*@
+    <link rel="stylesheet" type="text/css" href="~/Content/styles/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
 </head>
-<body>
-    <div class="text-center glow">
-        <h1 class="ml6">
-            <span class="text-wrapper">
-                <span class="letters">Library Management System</span>
-            </span>
-        </h1>
-    </div>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-5 mx-auto">
-                <div id="first">
-                    <div class="myform form ">
-                        <div class="logo mb-3">
-                            <div class="col-md-12 text-center">
-                                <h3>Admin Login</h3>
+<body onbeforeunload="setHourglass();" onunload="setHourglass();" style="background-image: url('../../Content/images/slider_background.jpg'); background-repeat: no-repeat; height:fit-content;">
+    <div class="container body-content" style="margin-top: -30px">
+        <div class="text-center glow">
+            <h1 class="ml6">
+                <span class="text-wrapper">
+                    <span class="letters">Library Management System</span>
+                </span>
+            </h1>
+        </div>
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-md-5 mx-auto">
+                    <div id="first">
+                        @*<div class="mask d-flex align-items-center">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="card mask-custom w-50 p-3 h-100">
+                                        <div class="card-body">*@
+                        <div class="myform form text-white">
+                            <div class="logo mb-3">
+                                <div class="col-md-12 text-center">
+                                    <h3>Login</h3>
+                                </div>
                             </div>
+                            <form method="post" action="@Url.Action("Login","Login")" autocomplete="off">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Username</label>
+                                    <input type="text" name="username" class="form-control myInput text-white" id="username" placeholder="Enter username">
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(u => u.username)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control myInput" aria-describedby="emailHelp" placeholder="Enter Password">
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(u => u.password)
+                                    </div>
+                                </div>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-danger">
+                                        <button class="close" data-close="alert"></button>
+                                        <span> @ViewBag.Message </span>
+                                    </div>
+                                }
+                                <div class="offset-3 text-center ">
+                                    <button type="submit" class="btn btn-block mybtn btn-outline-warning" style="width:200px">Login</button>
+                                </div>
+                                <div class="offset-3 text-center mt-3">
+                                    <a href="@Url.Action("Register","Login")" class="btn btn-block mybtn btn-outline-secondary" style="width:200px">Register</a>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div class="login-or">
+                                        <hr class="hr-or">
+                                        <span class="span-or text-white">or</span>
+                                    </div>
+                                    <div class="offset-4 text-center">
+                                        <a href="@Url.Action("index","Guest")" class="btn btn-block mybtn btn-outline-light" style="width:fit-content">Login as a guest</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <form method="post" action="@Url.Action("Login","Login")" autocomplete="off">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true)
-                            <div class="form-group">
-                                <label for="exampleInputUsername1">Username</label>
-                                <input type="text" name="username" class="form-control" id="username" placeholder="Enter username">
-                                <div class="text-danger">
-                                    @Html.ValidationMessageFor(u => u.username)
+                        @*</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputUsername1">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
-                                <div class="text-danger">
-                                    @Html.ValidationMessageFor(u => u.password)
-                                </div>
-                            </div>
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-danger">
-                                    <button class="close" data-close="alert"></button>
-                                    <span> @ViewBag.Message </span>
-                                </div>
-                            }
-                            <div class="col-md-12 text-center ">
-                                <button type="submit" class="btn btn-block mybtn btn-primary">Login</button>
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class="login-or">
-                                    <hr class="hr-or">
-                                    <span class="span-or">or</span>
-                                </div>
-                                <div class="offset-4 text-center">
-                                    <a href="@Url.Action("index","Guest")" class="btn btn-block mybtn btn-light" style="width:fit-content">Login as a guest</a>
-                                </div>
-                            </div>
-                        </form>
+                        </div>*@
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
-    <script type="text/javascript">
-        // Wrap every letter in a span
-        var textWrapper = document.querySelector('.ml6 .letters');
-        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+        <script type="text/javascript">
+            // Wrap every letter in a span
+            var textWrapper = document.querySelector('.ml6 .letters');
+            textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
-        anime.timeline({ loop: true })
-            .add({
-                targets: '.ml6 .letter',
-                translateY: ["1.1em", 0],
-                translateZ: 0,
-                duration: 1,//750,
-                delay: (el, i) => 80 * i
-            }).add({
-                targets: '.ml6',
-                opacity: 0,
-                duration: 1,//1000,
-                easing: "easeOutExpo",
-                delay: 9000
-            });
-    </script>
+            anime.timeline({ loop: true })
+                .add({
+                    targets: '.ml6 .letter',
+                    translateY: ["1.1em", 0],
+                    translateZ: 0,
+                    duration: 1,//750,
+                    delay: (el, i) => 80 * i
+                }).add({
+                    targets: '.ml6',
+                    opacity: 0,
+                    duration: 1,//1000,
+                    easing: "easeOutExpo",
+                    delay: 9000
+                });
+        </script>
+        <script type="text/javascript">
+            function setHourglass() {
+                document.body.style.cursor = 'wait';
+            }
+        </script>
+    </div>
 </body>
 </html>

@@ -1,75 +1,185 @@
 ﻿@using PagedList.Mvc
 @model PagedList.IPagedList<LaibrarySystem.Dto.Book>
+@*@model IEnumerable<LaibrarySystem.Dto.Book>*@
 
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Books</h2>
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
+@*<h2>Books</h2>*@
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-<form asp-controller="Admin" asp-action="Index" method="get">
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@*<form asp-controller="Admin" asp-action="Index" method="get">
 
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="input-group">
-                <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">Search</button>
-                </span>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Search</button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                @Html.ActionLink("Create New", "Create")
             </div>
         </div>
+    </form>
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author Name
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                Client Name
+            </th>
+            <th></th>
+        </tr>
 
-        <div class="col-lg-3">
-            @Html.ActionLink("Create New", "Create")
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.client.ClientName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="pagination" style="margin-left: 400px">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>*@
+@*<p class="ml-4">
+        <a href="@Url.Action("Create","Admin")" class="btn btn-success">Create</a>
+    </p>*@
+
+<div class="mask d-flex align-items-center h-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card mask-custom">
+                    <div class="card-body">
+                        @*<div class="d-inline-block">
+            <form asp-controller="Admin" asp-action="Index" method="get">
+                <p class="row">
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Search</button>
+                            </span>
+                        </div>
+                    </div>
+            </form>
+            <a href="@Url.Action("Create","Admin")" class="btn btn-success">Create</a>
+        </div>*@
+                        <form asp-controller="Admin" asp-action="Index" method="get">
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" name="SearchString" class="form-control myInput text-white" placeholder="Search for...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-outline-warning" type="submit">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <a href="@Url.Action("Create","Admin")" class="btn btn-success">Create</a>
+
+                                    @*@Html.ActionLink("Return Book", "ReturnBook")*@
+                                </div>
+                            </div>
+                            </form>
+
+                            <div class="table-responsive">
+                                <table class="table table-borderless text-white mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Title
+                                            </th>
+                                            <th>
+                                                Author Name
+                                            </th>
+                                            <th>
+                                                Available
+                                            </th>
+                                            <th>
+                                                Client Name
+                                            </th>
+                                            <th>
+                                                Created date
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.author.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsAvailable)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.client.ClientName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Edit","Admin",new { id = item.Id })" class="btn btn-light">Edit</a>
+                                                <a href="@Url.Action("Details","Admin",new { id = item.Id })" class="btn btn-light">Details</a>
+                                                <a href="@Url.Action("BookHistory","Admin",new { id = item.Id })" class="btn btn-light">History</a>
+                                                <a href="@Url.Action("Delete","Admin",new { id = item.Id })" class="btn btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="text-white offset-3 pagination" style="margin-top:0px">
+                                    <div style="position:absolute;left:8%">
+                                        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    </div>
+                                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</form>
-<table class="table">
-    <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Author Name
-        </th>
-        <th>
-            Available
-        </th>
-        <th>
-            Client Name
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.author.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAvailable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.client.ClientName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>
-
-<div class="pagination" style="margin-left: 400px">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-    of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
+

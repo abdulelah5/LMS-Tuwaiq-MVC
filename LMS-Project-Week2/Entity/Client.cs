@@ -17,5 +17,8 @@ namespace LMS_Project_Week2.Entity
         public int ClientId { get; set; }
         public string ClientName { get; set; }
         public Nullable<int> BookId { get; set; }
+        public string Status { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
     }
 }

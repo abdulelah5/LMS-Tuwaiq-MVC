@@ -4,7 +4,7 @@
     ViewBag.Title = "Return Book";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
 <h2>ReturnBook</h2>
 <br />
 @if (@ViewBag.okMessage != null)
@@ -15,22 +15,34 @@
 }
 @if (Model.Count() > 0)
 {
-    <form asp-controller="Guest" asp-action="ReturnBook" method="post">
-        <div class="form-group">
-            <label for="sel1">Select Book :</label>
-            <select class="form-control" name="id">
-                @foreach (var item in Model)
-                {
-                    <option value="@item.Id">@item.Title</option>
+    <div class="mask d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card mask-custom w-50 p-3 h-100">
+                        <div class="card-body">
+                            <form asp-controller="Guest" asp-action="ReturnBook" method="post">
+                                <div class="form-group">
+                                    <label for="sel1">Select Book :</label>
+                                    <select class="form-control myInput text-white" name="id">
+                                        @foreach (var item in Model)
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
 
-                }
+                                        }
 
-            </select>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-warning">Return Book</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Return Book</button>
-
-    </form>
+    </div>
 }
 else
 {
@@ -40,5 +52,5 @@ else
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Index","Guest")" class="btn btn-light mt-2 ml-3">Back to List</a>
 </div>

@@ -1,82 +1,204 @@
 ﻿@using PagedList.Mvc
 @model PagedList.IPagedList<LMS_Project_Week2.Entity.Books>
-
+@using LMS_Project_Week2.CommonClass;
 @{
     ViewBag.Title = "Guest Home";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*
+    <br />
+    <form asp-controller="Guest" asp-action="Index" method="get">
 
-<br />
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Search</button>
+                    </span>
+                </div>
+            </div>
 
-<form asp-controller="Guest" asp-action="Index" method="get">
-
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="input-group">
-                <input type="text" name="SearchString" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">Search</button>
-                </span>
+            <div class="col-lg-3">
+                @Html.ActionLink("Return Book", "ReturnBook")
             </div>
         </div>
+    </form>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author Name
+            </th>
+            <th>
+                Is Available
+            </th>
+            <th>
 
-        <div class="col-lg-3">
-            @Html.ActionLink("Return Book", "ReturnBook")
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+
+                </td>
+                <td>
+                    @if (item.IsAvailable.ToLower().Equals("yes"))
+                    {
+
+                        @Html.ActionLink("Rent", "Rent", new { id = item.Id })
+
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Not Available</span>
+                    }
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    <div class="pagination" style="margin-left: 400px">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+*@
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
+
+
+<br />
+<div class="mask d-flex align-items-center h-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card mask-custom">
+                    <div class="card-body">
+                        @*<div class="table-responsive">*@
+                        @*<form asp-controller="Guest" asp-action="Index" method="get">*@
+                        @using (Html.BeginForm())
+                        {
+
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" name="SearchString" class="form-control myInput text-white" placeholder="Search for...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-outline-warning" type="submit">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                @if (System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] != null && Session["Role"].ToString() == "2")
+                                {
+                                    <div class="col-lg-3">
+                                        <input type="submit" name="choice" value="Return Book" class="btn btn-outline-light" formaction=@Url.Action("ReturnBook") formmethod="get" />
+
+                                        @*@Html.ActionLink("Return Book", "ReturnBook")*@
+                                    </div>
+                                }
+                            </div>
+                            @*</form>*@
+                            <br />
+
+                            <table class="table table-borderless text-white mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Title
+                                        </th>
+                                        <th>
+                                            Author Name
+                                        </th>
+                                        <th>
+                                            Is Available
+                                        </th>
+                                        <th>
+                                            Preview
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsAvailable)
+
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrWhiteSpace(item.Path))
+                                                {
+                                                    @*@Html.ActionLink("view", "PdfViewer", new { id = item.Id }, new { target = "_blank" })*@
+                                                    <a href="@Url.Action("PdfViewer","Guest",new { id = item.Id })" class="btn btn-light">view</a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-warning">Preview not available</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.IsAvailable.ToLower().Equals("yes") && System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] != null && Session["Role"].ToString() == "2")
+                                                {
+
+                                                    @*<input type="submit" name="choice" value="Rent" class="btn btn-success" formaction=@Url.Action("Rent", new { id = item.Id }) formmethod="post" />*@
+                                                    <a href="@Url.Action("Rent","Guest",new { id = item.Id })" class="btn btn-success">Rent</a>
+                                                    @*@Html.ActionLink("Rent", "Rent", new { id = item.Id })*@
+
+                                                }
+                                                else
+                                                {
+                                                    if (item.IsAvailable.ToLower().Equals("yes") && (System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null || Session["Role"].ToString() == "1"))
+                                                    {
+                                                        <span class="label label-success">Available</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="label label-danger">Not Available</span>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+
+                            <div class="text-white offset-3 pagination" style="margin-top:0px">
+                                <div style="position:absolute;left:8%">
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                </div>
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</form>
-<br />
-<table class="table">
-    <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Author Name
-        </th>
-        <th>
-            Is Available
-        </th>
-        <th>
-
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.AuthorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAvailable)
-
-            </td>
-            <td>
-                @if (item.IsAvailable.ToLower().Equals("yes"))
-                {
-
-                    @Html.ActionLink("Rent", "Rent", new { id = item.Id })
-
-                }
-                else
-                {
-                    <span class="label label-danger">Not Available</span>
-                }
-
-
-            </td>
-        </tr>
-    }
-
-</table>
-
-
-<div class="pagination" style="margin-left: 400px">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-    of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>

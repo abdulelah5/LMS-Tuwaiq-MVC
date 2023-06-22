@@ -11,11 +11,13 @@ namespace LMS_Project_Week2.Controllers
 {
     public class PagesController : Controller
     {
+        //This class didn't used also , just Admin redirect without reason actuly *_*
+
         // GET: Pages
-        public ActionResult Guest()
-        {            
-            return View();
-        }
+        //public ActionResult Guest()
+        //{            
+        //    return View();
+        //}
         public ActionResult Admin()
         {
             if (System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null)
@@ -23,8 +25,6 @@ namespace LMS_Project_Week2.Controllers
                 return RedirectToAction("Login", "Login");
             }
             return RedirectToAction("Index", "Admin"); ;
-        }
-
-        //TODO: When click logout for admin make => System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null
+        }        
     }
 }

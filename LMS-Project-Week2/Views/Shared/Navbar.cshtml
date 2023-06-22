@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+@{ 
+    if (Session["Role"] == null)
+    {
+        Session["Role"] = "0";
+    }
+}
+<head>
+    <title>LMS</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Course Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/PagedList.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/styles/responsive.css">
+
+</head>
+<body>
+
+    <div class="super_container" style="margin-bottom:150px;">
+
+        <!-- Header -->
+
+        <header class="header d-flex flex-row">
+            <div class="header_content d-flex flex-row align-items-center">
+                <!-- Logo -->
+                <div class="logo_container">
+                    <div class="logo">
+                        <img src="~/Content/images/logo.png" alt="">
+                        <span>LMS</span>
+                    </div>
+                </div>
+
+                <!-- Main Navigation -->
+                <nav class="main_nav_container">
+                    <div class="main_nav">
+                        <ul class="main_nav_list d-inline-flex">
+                            @if (Session["Role"].ToString() == "1" && System.Web.HttpContext.Current.Session[LMS_Project_Week2.CommonClass.AuthinticationLoginSession.loggedInUserObject] != null)
+                            {
+                                <li class="main_nav_item">@Html.ActionLink("Home", "Index", "Admin")</li>
+                                <li class="main_nav_item">@Html.ActionLink("Guest Home", "Index", "Guest")</li>
+                                <li class="main_nav_item">@Html.ActionLink("Mange users", "Users", "Admin")</li>
+                                <li class="nav-item dropdown main_nav_item">
+                                    <a class="dropdown-toggle main_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:underline">
+                                        @Session["Username"]
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                        <ul>
+                                            <li><a class="dropdown-item" href="@Url.Action("Login","Login")">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            else if (System.Web.HttpContext.Current.Session[LMS_Project_Week2.CommonClass.AuthinticationLoginSession.loggedInUserObject] != null)
+                            {
+                                <li class="main_nav_item">@Html.ActionLink("Home", "Index", "Guest")</li>
+                                <li class="nav-item dropdown main_nav_item">
+                                    <a class="dropdown-toggle main_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:underline">
+                                        @Session["Username"]
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                        <ul>
+                                            <li><a class="dropdown-item" href="@Url.Action("Login","Login")">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="main_nav_item">@Html.ActionLink("Home", "Index", "Guest")</li>
+                                <li class="main_nav_item">@Html.ActionLink("Login", "Login", "Login")</li>
+                            }
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="header_side d-flex flex-row justify-content-center align-items-center">
+                <img src="~/Content/images/phone-call.svg" alt="">
+                <span>+966 53 378 1852</span>
+            </div>
+
+            <!-- Hamburger -->
+            <div class="hamburger_container">
+                <i class="fas fa-bars trans_200"></i>
+            </div>
+
+        </header>
+    </div>
+</body>
+</html>

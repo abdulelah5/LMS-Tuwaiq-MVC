@@ -1,0 +1,123 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<LaibrarySystem.Dto.Client>
+
+@{
+    ViewBag.Title = "Users";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
+
+<h2 style="color:white;">Users</h2>
+<body>
+
+
+    @using (Html.BeginForm())
+    {
+        <div class="mask d-flex align-items-center h-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card mask-custom">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Username
+                                                </th>
+                                                <th scope="col">
+                                                    Status
+                                                </th>
+                                                <th scope="col">
+                                                    Last updated date
+                                                </th>
+                                                <th scope="col">
+                                                    Last updated by
+                                                </th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td scope="row">
+                                                        @Html.DisplayFor(modelItem => item.ClientName)
+                                                    </td>
+                                                    <td>
+                                                        @if (item.Status == "A")
+                                                        {
+                                                            <span class="badge badge-success">Approved</span>
+                                                        }
+                                                        else if (item.Status == "1")
+                                                        {
+                                                            <span class="badge badge-warning">Verified</span>
+                                                        }
+                                                        else if (item.Status == "D")
+                                                        {
+                                                            <span class="badge badge-warning">Blocked</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge badge-secondary">Not Verified</span>
+                                                        }
+                                                    </td>
+                                                    @if (!string.IsNullOrWhiteSpace(item.LastUpdateDT))
+                                                    {
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.LastUpdateDT)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.LastUpdateBy)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
+                                                        <td></td>
+                                                    }
+                                                    <td>
+
+                                                        @if (item.Status == "1")
+                                                        {
+
+                                                            <input type="submit" name="choice" value="Approve" class="btn btn-success" formaction=@Url.Action("ApproveUser", new { id = item.Id }) formmethod="post" />
+                                                            <input type="submit" name="choice" value="Reject" class="btn btn-danger" formaction=@Url.Action("RejectDeleteUser", new { id = item.Id }) formmethod="post" />
+
+                                                        }
+                                                        else if (item.Status == "D")
+                                                        {
+                                                            <input type="submit" name="choice" value="Approve" class="btn btn-success" formaction=@Url.Action("ApproveUser", new { id = item.Id }) formmethod="post" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="submit" name="choice" value="Delete" class="btn btn-danger" formaction=@Url.Action("RejectDeleteUser", new { id = item.Id }) formmethod="post" />
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+
+
+                                    @*<div class="pagination" style="margin-left: 400px;">
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber )
+                                            of @Model.PageCount
+                                        </div>*@
+                                    <div class="text-white offset-3 pagination" style="margin-top:-7px">
+                                        <div style="position:absolute;left:8%">
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                        </div>
+                                        @Html.PagedListPager(Model, page => Url.Action("Users", new { page }))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <a href="@Url.Action("Index","Admin")" class="btn btn-light mt-2 ml-3">Back to Home</a>
+</body>

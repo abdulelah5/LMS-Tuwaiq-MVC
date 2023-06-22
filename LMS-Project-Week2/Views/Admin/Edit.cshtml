@@ -3,80 +3,120 @@
 @{
     ViewBag.Title = "Edit";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
+<h2 style="color:white;">Edit</h2>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        <button class="close" data-close="alert"></button>
+        <span> @ViewBag.ErrorMessage </span>
+    </div>
+}
 
-<h2>Edit</h2>
 
-
-@using (Html.BeginForm("Edit", "Admin", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Book</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+    <div class="mask d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card mask-custom w-50 p-3 h-100">
+                        <div class="card-body">
+                            <h4>Book</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control myInput text-white" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.author.Id, "Author name", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.author.Id,
-           new SelectList(ViewBag.Authors, "Id", "Name"), "Choose", htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.author.Id, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.author.Id, "Author name", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.author.Id,
+                                   new SelectList(ViewBag.Authors, "Id", "Name"), "Choose", htmlAttributes: new { @class = "form-control myInput text-white" })
+                                    @Html.ValidationMessageFor(model => model.author.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsAvailable, "Is available", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-            <input class="form-control" id="IsAvailable" name="IsAvailable" type="text" value="@Model.IsAvailable" style="display:none" />
-            @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @if (Model.IsAvailable.ToLower() == "no")
-    {
-        <div class="form-group">
-            @Html.LabelFor(model => model.client.Id, "Client name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.client.Id, new { htmlAttributes = new { @class = "form-control" } })*@
-                <input class="form-control" type="text" value="@Model.client.ClientName" disabled="disabled" />
-                @Html.ValidationMessageFor(model => model.client.Id, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsAvailable, "Is available", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-10">
+                                    @*@Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control myInput text-white" } })*@
+                                    @Html.DropDownListFor(model => model.IsAvailable,
+                                       new[] { new SelectListItem { Text = "Yes", Value = "Yes" }, new SelectListItem { Text = "No", Value = "No" } }, htmlAttributes: new { @class = "form-control myInput text-white" })
+                                    <input class="form-control myInput text-white" id="IsAvailable" name="IsAvailable" type="text" value="@Model.IsAvailable" style="display:none" />
+                                    @*@Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                            @if (Model.IsAvailable.ToLower() == "no")
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.client.Id, "Client name", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-10">
+                                        @*@Html.EditorFor(model => model.client.Id, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        <input class="form-control myInput text-white" type="text" value="@Model.client.ClientName" disabled="disabled" />
+                                        @Html.ValidationMessageFor(model => model.client.Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+                            @*else
+        {
+            <!--<div class="form-group">
+                @Html.LabelFor(model => model.client.Id, "Give to Client", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.client.Id,
+                   new SelectList(ViewBag.client, "Id", "ClientName"), "Choose", htmlAttributes: new { @class = "form-control myInput text-white" })-->
+                    @Html.ValidationMessageFor(model => model.client.Id, "", new { @class = "text-danger" })
+                <!--</div>
+            </div>-->
+        }*@
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="path">PDF File</label>
+                                <div class="col-md-10">
+                                    <input class="form-control text-box single-line myInput text-white" id="path" name="file" type="file" value="">
+                                </div>
+                                @if (!string.IsNullOrWhiteSpace(Model.Path))
+                                {
+                                    <div id="pdfPreview" class="col-md-10 single-line mt-1">
+                                        <span class="text-white ml-4 mt-2">@Model.Path</span>
+                                        <button type="button" onclick="RemovePDF()" class="text-danger ml-3 btn btn-default text-center" style="text-decoration-line:underline; font-size:14px; border:none;">Remove</button>
+                                        <input id="RemoveInput" class="mt-2" type="text" name="Remove" value="" style="display:none" />
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save" class="btn btn-outline-warning" />                                    
+                                </div>
+                            </div>                            
+                        </div>                        
+                    </div>                    
+                </div>
             </div>
         </div>
-    }
-    else
-    {
-<div class="form-group">
-    @Html.LabelFor(model => model.client.Id, "Give to Client", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownListFor(model => model.client.Id,
-       new SelectList(ViewBag.client, "Id", "ClientName"), "Choose", htmlAttributes: new { @class = "form-control" })
-        @*@Html.ValidationMessageFor(model => model.client.Id, "", new { @class = "text-danger" })*@
     </div>
-</div>
-    }
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+<a href="@Url.Action("Index","Admin")" class="btn btn-light mt-2 ml-3">Back to List</a>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script type="text/javascript">
+    function RemovePDF() {
+        document.getElementById("pdfPreview").style.display = "none";
+        $("#RemoveInput").val("Remove");
+    }
+</script>

@@ -18,6 +18,12 @@ namespace LMS_Project_Week2.Entity
         public string Title { get; set; }
         public Nullable<int> AuthorId { get; set; }
         public string IsAvailable { get; set; }
+        public string Path { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public string RentDate { get; set; }
+        public string ReturnDate { get; set; }
+        public Nullable<int> LastClientId { get; set; }
         public virtual Author Author { get; set; }
     }
 }

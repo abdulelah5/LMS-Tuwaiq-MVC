@@ -2,84 +2,112 @@
 @{
     ViewBag.Title = "Create";
 }
-
-<h2>Create</h2>
-
-
-@using (Html.BeginForm())
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
+<h2 style="color:white;">Create</h2>
+@if (ViewBag.ErrorMessage != null)
 {
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <h4>Book</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
+    <div class="alert alert-danger">
+        <button class="close" data-close="alert"></button>
+        <span> @ViewBag.ErrorMessage </span>
     </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.AuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AuthorId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AuthorId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.author.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control" } })
-        </div>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-<div class="form-group">
-    @Html.LabelFor(model => model.author.Id, "Author name", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div id="selectAuthorName" class="col-md-10">
-        @Html.DropDownListFor(model => model.author.Id,
-       new SelectList(ViewBag.Authors, "Id", "Name"), "Choose", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.author.Id, "", new { @class = "text-danger" })
-        <button class="btn btn-default" type="button" onclick="newAuthor(this)">New author?</button>
-    </div>    
-    <div id="authorName" class="col-md-10" style="display:none">
-        @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.author.Name, "", new { @class = "text-danger" })
-        <button class="btn btn-default" type="button" onclick="existAuthor(this)">Select author?</button>
-    </div>    
-</div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="mask d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card mask-custom w-50 p-3 h-100">
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Book</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control myInput text-white" } })
+                                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.AuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.AuthorId, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.AuthorId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsAvailable, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-10 text-white">
+                                        @*@Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control myInput text-white" } })
+                                            @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })*@
+                                        @*@Html.RadioButtonFor(model => model.IsAvailable, "Yes") Yes*@
+                                        @Html.DropDownListFor(model => model.IsAvailable,
+                                       new[] { new SelectListItem { Text = "Yes", Value = "Yes" }, new SelectListItem { Text = "No", Value = "No" } }, htmlAttributes: new { @class = "form-control myInput text-white" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                    @Html.LabelFor(model => model.author.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.IsAvailable, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.author.Id, "Author name", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div id="selectAuthorName" class="col-md-10">
+                                        @Html.DropDownListFor(model => model.author.Id,
+                                       new SelectList(ViewBag.Authors, "Id", "Name"), "Choose", htmlAttributes: new { @class = "form-control myInput text-white" })
+                                        @Html.ValidationMessageFor(model => model.author.Id, "", new { @class = "text-danger" })
+                                        <button class="btn btn-default text-warning" type="button" onclick="newAuthor(this)">New author?</button>
+                                    </div>
+                                    <div id="authorName" class="col-md-10" style="display:none">
+                                        @Html.EditorFor(model => model.author.Name, new { htmlAttributes = new { @class = "form-control myInput text-white" } })
+                                        @Html.ValidationMessageFor(model => model.author.Name, "", new { @class = "text-danger" })
+                                        <button class="btn btn-default text-warning" type="button" onclick="existAuthor(this)">Select author?</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="path">PDF File</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control text-box single-line myInput text-white" id="path" name="file" type="file" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Create" class="btn btn-outline-warning" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+<a href="@Url.Action("Index","Admin")" class="btn btn-light mt-2 ml-3">Back to List</a>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script type="text/javascript">
-    function newAuthor(element) {        
+    function newAuthor(element) {
         document.getElementById("authorName").style.display = "block";
         document.getElementById("selectAuthorName").style.display = "none";
     }

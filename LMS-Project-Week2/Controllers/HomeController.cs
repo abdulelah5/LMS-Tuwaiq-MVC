@@ -9,6 +9,7 @@ namespace LMS_Project_Week2.Controllers
 {
     public class HomeController : Controller
     {
+        //This class not used but we secure it, it will required login
         public ActionResult Index()
         {
             if(System.Web.HttpContext.Current.Session[AuthinticationLoginSession.loggedInUserObject] == null)

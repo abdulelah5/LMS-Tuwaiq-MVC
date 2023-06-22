@@ -27,12 +27,18 @@ h1, h2, h3 {
     flex-direction: column;
     width: 100%;
     pointer-events: auto;
-    background-color: #fff;
+    /*background-color: #fff;*/
     background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.2);
+    /*border: 1px solid rgba(0,0,0,.2);*/
     border-radius: 1.1rem;
     outline: 0;
     max-width: 500px;
+    background: rgba(24, 24, 16, .2);
+    border-radius: 2em;
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
 }
 
 .tx-tfm {
@@ -58,9 +64,16 @@ h1, h2, h3 {
     left: 50%;
     top: -2px;
     margin-left: -25px;
-    background-color: #fff;
+    /*background-color: #fff;*/
     width: 50px;
     text-align: center;
+    max-width: 500px;
+    /*background: rgba(24, 24, 16, .2);*/
+    border-radius: 1em;
+    backdrop-filter: blur(65px);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);    
 }
 
 .hr-or {
@@ -147,3 +160,18 @@ button .close {
         text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff, 0 0 80px #fff;
     }*/
 }
+.myInput {
+    background: rgba(24, 24, 16, .2);
+    backdrop-filter: blur(100px);
+    border: rgba(255, 255, 255, 0.05);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+    .myInput:focus {
+        background: rgba(24, 24, 16, .2);
+        backdrop-filter: blur(100px);
+        border: rgba(255, 255, 255, 0.05);
+        background-clip: padding-box;
+        box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+        color: #fff !important;
+    }

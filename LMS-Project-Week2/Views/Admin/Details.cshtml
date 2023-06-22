@@ -3,47 +3,131 @@
 @{
     ViewBag.Title = "Details";
 }
-
+<link rel="stylesheet" type="text/css" href="~/Content/TableCSS.css">
 <h2>Details</h2>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+<div class="mask d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card mask-custom w-50 p-3 h-100">
+                    <div class="card-body">
+                        <h4>Book</h4>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Title)
+                            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.author.Name)
-        </dt>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.author.Name)
+                            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.author.Name)
-        </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.author.Name)
+                            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsAvailable)
-        </dt>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.IsAvailable)
+                            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsAvailable)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.client.ClientName)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.IsAvailable)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CreatedBy)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.CreatedBy)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CreatedDate)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.CreatedDate)
+                            </dd>
+                            @if (!string.IsNullOrWhiteSpace(Model.LastUpdateBy))
+                            {
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastUpdateBy)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastUpdateBy)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastUpdateDT)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastUpdateDT)
+                                </dd>
+                            }
 
-        <dd>
-            @Html.DisplayFor(model => model.client.ClientName)
-        </dd>
+                            @if (Model.LastClient != 0)
+                            {
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastClient)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastClient)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastClientName)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastClientName)
+                                </dd>
+                                if (string.IsNullOrWhiteSpace(Model.client.ClientName))
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RentDate)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.RentDate)
+                                    </dd>
+                                }
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.ReturnDate)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.ReturnDate)
+                                </dd>
+                            }
 
-    </dl>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.client.ClientName))
+                            {
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.client.ClientName)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.client.ClientName)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.RentDate)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.RentDate)
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                    <p>
+                        @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@
+                        @*<input type="submit" name="choice" value="Edit" class="btn btn-outline-warning mt-2" formaction=@Url.Action("Edit", new { id = Model.Id }) formmethod="get" />*@
+                        <a href="@Url.Action("Edit","Admin",new { id = Model.Id })" class="btn btn-outline-warning mt-2">Edit</a> |
+                        <a href="@Url.Action("Index","Admin")" class="btn btn-light mt-2">Back to List</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
